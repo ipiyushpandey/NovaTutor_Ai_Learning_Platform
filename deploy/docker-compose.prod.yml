@@ -1,0 +1,70 @@
+services:
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-ai_tutor}
+      MYSQL_USER: ${MYSQL_USER:?MYSQL_USER is required}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?MYSQL_PASSWORD is required}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD is required}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u$${MYSQL_USER} -p$${MYSQL_PASSWORD} --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  backend:
+    build:
+      context: ..
+      dockerfile: deploy/backend.Dockerfile
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_URL: jdbc:mysql://mysql:3306/$${MYSQL_DATABASE}?useSSL=true&requireSSL=true&serverTimezone=Asia/Kolkata
+      DB_USERNAME: $${MYSQL_USER}
+      DB_PASSWORD: $${MYSQL_PASSWORD}
+      JWT_SECRET: $${JWT_SECRET:?JWT_SECRET is required}
+      GEMINI_API_KEY: $${GEMINI_API_KEY:?GEMINI_API_KEY is required}
+      ADMIN_EMAIL: $${ADMIN_EMAIL:?ADMIN_EMAIL is required}
+      ADMIN_PASSWORD: $${ADMIN_PASSWORD:?ADMIN_PASSWORD is required}
+      CORS_ORIGINS: $${CORS_ORIGINS:?CORS_ORIGINS is required}
+      CODE_RUNNER_ENABLED: $${CODE_RUNNER_ENABLED:-false}
+      CODE_RUNNER_PRODUCTION_ACK: $${CODE_RUNNER_PRODUCTION_ACK:-}
+      RATE_LIMIT_RPM: $${RATE_LIMIT_RPM:-1000}
+      RATE_LIMIT_AUTH_RPM: $${RATE_LIMIT_AUTH_RPM:-30}
+      RATE_LIMIT_AI_RPM: $${RATE_LIMIT_AI_RPM:-60}
+      RATE_LIMIT_CODE_RPM: $${RATE_LIMIT_CODE_RPM:-40}
+      RATE_LIMIT_UPLOAD_10M: $${RATE_LIMIT_UPLOAD_10M:-15}
+      RATE_LIMIT_ADMIN_RPM: $${RATE_LIMIT_ADMIN_RPM:-1500}
+      RATE_LIMIT_TRUST_PROXY: $${RATE_LIMIT_TRUST_PROXY:-true}
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8080/actuator/health/readiness || exit 1"]
+      interval: 15s
+      timeout: 5s
+      start_period: 30s
+      retries: 5
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: deploy/frontend.Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${PORT:-80}:80"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O - http://127.0.0.1/ >/dev/null 2>&1 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      start_period: 10s
+      retries: 5
+    depends_on:
+      backend:
+        condition: service_healthy
+
+volumes:
+  mysql_data:

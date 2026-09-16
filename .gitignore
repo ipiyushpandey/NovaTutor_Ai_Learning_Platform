@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+target/
+
+# Environment files / secrets
+.env
+.env.*
+!.env.example
+!.env.production.example
+
+# Logs and runtime output
+*.log
+*.tmp
+*.temp
+
+# Python caches
+__pycache__/
+*.py[cod]
+
+# Java build output
+*.class
+
+# Frontend build output
+dist/
+build/
+
+# IDE settings
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db

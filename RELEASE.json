@@ -1,0 +1,12 @@
+{
+  "version": "70.49.2",
+  "name": "NovaTutor",
+  "release": "GATE CSE test-series answer-state and scoring fix",
+  "scope": "Fixes per-question answer persistence and corrupted negative scoring in the GATE CSE full-length test series. Uses a unique per-attempt question key instead of reused question-bank numbers. No AI Teacher or other module behavior changes.",
+  "title": "GATE CSE Subject Question Counts + Result Breakdown Fix",
+  "changes": [
+    "Subject overview cards show actual question-bank count per individual CSE subject.",
+    "Subject result breakdown now shows correct/total questions, with correct+wrong+unattempted totaling that subject's questions.",
+    "GATE test history key bumped to isolate older result records."
+  ]
+}

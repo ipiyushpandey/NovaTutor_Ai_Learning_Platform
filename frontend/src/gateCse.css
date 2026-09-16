@@ -1,0 +1,98 @@
+
+.gate-card-pdf-list{display:flex;flex-direction:column;gap:8px;margin-top:14px}.gate-card-pdf-list .compact{display:flex;align-items:center;gap:8px;justify-content:flex-start;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.gate-card-pdf-list .compact svg{flex:0 0 auto}.course-manage-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+/* Checkpoint 46 — targeted GATE UI polish: accessible states, theme-safe surfaces and mobile containment. */
+.gate-page button,
+.gate-page a,
+.gate-page input,
+.gate-page select{ -webkit-tap-highlight-color:transparent; }
+.gate-page button:focus-visible,
+.gate-page a:focus-visible,
+.gate-page input:focus-visible,
+.gate-page select:focus-visible{outline:3px solid rgba(108,76,199,.24);outline-offset:2px;}
+.gate-page .gate-subject-card,
+.gate-page .gate-note-card,
+.gate-page .gate-official-card,
+.gate-page .gate-resource-card,
+.gate-page .gate-options button,
+.gate-page .gate-tabs button{transition:transform .18s ease,border-color .18s ease,background-color .18s ease,box-shadow .18s ease,color .18s ease;}
+.gate-page .gate-options button{min-width:0;overflow-wrap:anywhere;}
+.gate-page .gate-options button:hover{transform:translateY(-1px);box-shadow:0 7px 18px rgba(55,38,90,.07);}
+.gate-page .gate-options button.selected{background:rgba(108,76,199,.12);border-color:#6c4cc7;box-shadow:0 0 0 3px rgba(108,76,199,.10),0 8px 20px rgba(108,76,199,.08);}
+.gate-page .gate-options button.selected span{background:#6c4cc7;color:#fff;box-shadow:0 0 0 2px rgba(108,76,199,.14);}
+.gate-page .gate-resource-card a,
+.gate-page .gate-resource-card .text-btn,
+.gate-page .gate-syllabus-index,
+.gate-page .gate-question-meta b,
+.gate-page .gate-options button span{transition:background-color .18s ease,color .18s ease,border-color .18s ease;}
+.gate-page .gate-resource-card a:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(108,76,199,.12);}
+.gate-page .gate-source-links a{min-width:0;overflow-wrap:anywhere;transition:transform .18s ease,border-color .18s ease,background-color .18s ease;}
+.gate-page .gate-source-links a:hover{transform:translateY(-1px);}
+.gate-page .gate-pdf-container{width:100%;max-width:100%;overflow:auto;border:1px solid var(--border);border-radius:14px;background:var(--card);box-shadow:0 8px 24px rgba(20,20,35,.06);}
+.gate-page .gate-pdf-container iframe,
+.gate-page .gate-pdf-container embed,
+.gate-page .gate-pdf-container object{display:block;width:100%;max-width:100%;min-height:70vh;border:0;}
+.dark .gate-page .gate-resource-card a,
+.dark .gate-page .gate-syllabus-index,
+.dark .gate-page .gate-question-meta b,
+.dark .gate-page .gate-options button span{background:#29233f;color:#c8bfff;border-color:#403760;}
+.dark .gate-page .gate-options button.selected{background:rgba(139,124,255,.22);border-color:#a78bfa;color:var(--text);box-shadow:0 0 0 3px rgba(167,139,250,.13),0 8px 20px rgba(0,0,0,.18);}
+.dark .gate-page .gate-options button.selected span{background:#8b7cff;color:#fff;border-color:#a78bfa;}
+.dark .gate-page .gate-resource-card a:hover,
+.dark .gate-page .gate-source-links a:hover{background:#201b31;}
+.dark .gate-page .gate-test-shell.active-paper .gate-test-head,
+.dark .gate-page .gate-test-shell.active-paper .gate-test-backbar,
+.dark .gate-page .gate-test-shell.active-paper .gate-question-nav{box-shadow:none;}
+.dark .gate-page .gate-test-shell.active-paper .gate-question-nav-actions{background:rgba(21,25,39,.96);}
+
+@media(max-width:600px){
+  .gate-page .gate-options button{padding:13px 12px;min-height:54px;font-size:12px;}
+  .gate-page .gate-question h4{font-size:clamp(16px,4.4vw,19px);line-height:1.55;}
+  .gate-page .gate-resource-card{align-items:flex-start;}
+  .gate-page .gate-resource-card small{overflow-wrap:anywhere;}
+  .gate-page .gate-source-links{grid-template-columns:1fr;}
+}
+@media(max-width:390px){
+  .gate-page .gate-hero-copy h1{font-size:30px;letter-spacing:-1px;}
+  .gate-page .gate-stat-grid{grid-template-columns:1fr 1fr;gap:7px;}
+  .gate-page .gate-stat-grid>div{padding:11px;}
+  .gate-page .gate-tabs{padding-right:2px;}
+  .gate-page .gate-test-shell.active-paper .gate-test-head{min-height:auto;}
+  .gate-page .gate-test-shell.active-paper .gate-test-progress span{min-width:92px;padding:5px 7px;font-size:9px;}
+  .gate-page .gate-test-shell.active-paper .gate-question-grid{grid-template-columns:repeat(6,minmax(28px,1fr));}
+  .gate-page .gate-test-shell.active-paper .gate-question-grid button{height:29px;}
+  .gate-page .gate-test-shell.active-paper .gate-question-nav-actions{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:330px){
+  .gate-page .gate-test-shell.active-paper .gate-question-grid{grid-template-columns:repeat(5,minmax(28px,1fr));}
+  .gate-page .gate-test-shell.active-paper .gate-question{padding-left:9px;padding-right:9px;}
+}
+@media(prefers-reduced-motion:reduce){
+  .gate-page .gate-subject-card,
+  .gate-page .gate-note-card,
+  .gate-page .gate-official-card,
+  .gate-page .gate-resource-card,
+  .gate-page .gate-options button,
+  .gate-page .gate-tabs button,
+  .gate-page .gate-source-links a{transition:none;}
+}
+
+/* Checkpoint 47 — Premium GATE responsive polish */
+.gate-page .gate-subject-grid,
+.gate-page .gate-resource-grid,
+.gate-page .gate-topic-grid{align-items:stretch}
+.gate-page .gate-pdf-container{scrollbar-width:thin;scrollbar-color:rgba(99,102,241,.35) transparent}
+.gate-page .gate-pdf-container::-webkit-scrollbar{height:8px;width:8px}
+.gate-page .gate-pdf-container::-webkit-scrollbar-thumb{background:rgba(99,102,241,.35);border-radius:20px}
+.gate-page .gate-pdf-container::-webkit-scrollbar-track{background:transparent}
+@media(max-width:600px){
+  .gate-page .gate-card-pdf-list .compact{white-space:normal;min-height:42px}
+  .gate-page .course-manage-actions{width:100%}
+  .gate-page .course-manage-actions>*{max-width:100%}
+}
+@media(max-width:390px){
+  .gate-page .gate-card-pdf-list .compact{gap:6px;padding-left:9px;padding-right:9px}
+}
+
+/* V70.49.2 — subject question-count labels */
+.gate-page .gate-subject-card em{display:block;margin-top:5px;font-size:11px;font-style:normal;font-weight:700;color:var(--muted,#777);letter-spacing:.01em}

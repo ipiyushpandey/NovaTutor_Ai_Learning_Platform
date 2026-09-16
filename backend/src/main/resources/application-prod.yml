@@ -1,0 +1,80 @@
+# Production profile. Never use local development defaults in production.
+spring:
+  main:
+    banner-mode: "off"
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: ${DB_POOL_MAX:20}
+      minimum-idle: ${DB_POOL_MIN:5}
+      connection-timeout: ${DB_POOL_CONNECTION_TIMEOUT_MS:10000}
+      max-lifetime: ${DB_POOL_MAX_LIFETIME_MS:1800000}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+app:
+  seed:
+    enabled: false
+  rate-limit:
+    enabled: ${RATE_LIMIT_ENABLED:true}
+    requests-per-minute: ${RATE_LIMIT_RPM:1000}
+    auth-per-minute: ${RATE_LIMIT_AUTH_RPM:30}
+    ai-per-minute: ${RATE_LIMIT_AI_RPM:60}
+    code-per-minute: ${RATE_LIMIT_CODE_RPM:40}
+    upload-per-10-minutes: ${RATE_LIMIT_UPLOAD_10M:15}
+    admin-per-minute: ${RATE_LIMIT_ADMIN_RPM:1500}
+    trust-proxy: ${RATE_LIMIT_TRUST_PROXY:true}
+  cors:
+    allowed-origins: ${CORS_ORIGINS}
+  admin:
+    email: ${ADMIN_EMAIL}
+    password: ${ADMIN_PASSWORD}
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration-ms: ${JWT_EXPIRATION:3600000}
+  code-runner:
+    enabled: ${CODE_RUNNER_ENABLED:false}
+    production-ack: ${CODE_RUNNER_PRODUCTION_ACK:}
+    timeout-seconds: ${CODE_RUNNER_TIMEOUT_SECONDS:5}
+    memory-mb: ${CODE_RUNNER_MEMORY_MB:256}
+  upload:
+    max-pdf-pages: ${MAX_PDF_PAGES:300}
+    max-extracted-characters: ${MAX_PDF_TEXT_CHARS:5000000}
+ai:
+  gemini:
+    api-key: ${GEMINI_API_KEY}
+    model: ${GEMINI_MODEL:gemini-3.6-flash}
+    fallback-model: ${GEMINI_FALLBACK_MODEL:gemini-3.5-flash-lite}
+    max-attempts: ${GEMINI_MAX_ATTEMPTS:1}
+    max-output-tokens: ${GEMINI_MAX_OUTPUT_TOKENS:32768}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: never
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+server:
+  forward-headers-strategy: framework
+  error:
+    include-message: never
+    include-stacktrace: never
+  tomcat:
+    max-swallow-size: 50MB

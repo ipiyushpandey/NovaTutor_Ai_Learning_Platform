@@ -1,0 +1,3 @@
+package com.aitutor.ai;
+
+public enum AiTask { TUTOR, CODE, QUIZ, QA, SUMMARIZE, STUDY_PLAN, FLASHCARDS, ADAPTIVE_TUTOR, INTERVIEW }

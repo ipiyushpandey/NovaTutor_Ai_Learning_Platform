@@ -1,0 +1,14 @@
+# Local-development defaults only. Production must activate the prod profile.
+# Optional: set JWT_SECRET in your environment or IntelliJ run configuration.
+# The fallback below is a public development-only value and must never be used in production.
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+app:
+  jwt:
+    secret: ${JWT_SECRET:novatutor-public-repo-local-development-only-secret-2026}
+  seed:
+    enabled: ${APP_SEED_ENABLED:true}
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:*,http://127.0.0.1:*,http://[::1]:*}

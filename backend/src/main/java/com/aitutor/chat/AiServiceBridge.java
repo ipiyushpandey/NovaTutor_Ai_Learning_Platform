@@ -1,0 +1,3 @@
+package com.aitutor.chat;
+import com.aitutor.ai.*; import com.aitutor.service.AiService; import org.springframework.stereotype.Service;
+@Service public class AiServiceBridge { private final AiService ai; public AiServiceBridge(AiService ai){this.ai=ai;} public AiResponse ask(String task,String topic,String message,String level,String language,String context){AiTask t; try{t=AiTask.valueOf(task==null?"TUTOR":task.toUpperCase());}catch(Exception e){t=AiTask.TUTOR;} String enriched=(context==null||context.isBlank())?message:message+"\n\nRecent conversation context:\n"+context; return ai.ask(new AiRequest(t,topic,enriched,level,language));}}

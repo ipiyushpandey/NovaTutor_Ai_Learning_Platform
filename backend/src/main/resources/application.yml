@@ -1,0 +1,63 @@
+spring:
+  profiles:
+    default: dev
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/ai_tutor?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=Asia/Kolkata}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: ${JPA_DDL_AUTO:update}
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+server:
+  port: 8080
+app:
+  jwt:
+    secret: ${JWT_SECRET:}
+    expiration-ms: ${JWT_EXPIRATION:86400000}
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:*,http://127.0.0.1:*,http://[::1]:*}
+  admin:
+    email: ${ADMIN_EMAIL:}
+    password: ${ADMIN_PASSWORD:}
+  code-runner:
+    enabled: ${CODE_RUNNER_ENABLED:true}
+    timeout-seconds: ${CODE_RUNNER_TIMEOUT_SECONDS:5}
+    memory-mb: ${CODE_RUNNER_MEMORY_MB:256}
+    java-image: ${CODE_RUNNER_JAVA_IMAGE:eclipse-temurin:21-jdk}
+    python-image: ${CODE_RUNNER_PYTHON_IMAGE:python:3.12-alpine}
+    cpp-image: ${CODE_RUNNER_CPP_IMAGE:gcc:14}
+    node-image: ${CODE_RUNNER_NODE_IMAGE:node:22-alpine}
+    go-image: ${CODE_RUNNER_GO_IMAGE:golang:1.24-alpine}
+    production-ack: ${CODE_RUNNER_PRODUCTION_ACK:}
+  seed:
+    enabled: ${APP_SEED_ENABLED:true}
+  rate-limit:
+    enabled: ${RATE_LIMIT_ENABLED:true}
+    requests-per-minute: ${RATE_LIMIT_RPM:1000}
+    auth-per-minute: ${RATE_LIMIT_AUTH_RPM:30}
+    ai-per-minute: ${RATE_LIMIT_AI_RPM:60}
+    code-per-minute: ${RATE_LIMIT_CODE_RPM:40}
+    upload-per-10-minutes: ${RATE_LIMIT_UPLOAD_10M:15}
+    admin-per-minute: ${RATE_LIMIT_ADMIN_RPM:1500}
+    trust-proxy: ${RATE_LIMIT_TRUST_PROXY:false}
+  upload:
+    max-pdf-pages: ${MAX_PDF_PAGES:300}
+    max-extracted-characters: ${MAX_PDF_TEXT_CHARS:5000000}
+ai:
+  gemini:
+    api-key: ${GEMINI_API_KEY:}
+    model: ${GEMINI_MODEL:gemini-3.6-flash}
+    fallback-model: ${GEMINI_FALLBACK_MODEL:gemini-3.5-flash-lite}
+    max-attempts: ${GEMINI_MAX_ATTEMPTS:1}
+    max-output-tokens: ${GEMINI_MAX_OUTPUT_TOKENS:32768}

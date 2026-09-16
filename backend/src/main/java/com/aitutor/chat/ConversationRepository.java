@@ -1,0 +1,1 @@
+package com.aitutor.chat; import org.springframework.data.jpa.repository.JpaRepository; import java.util.*; public interface ConversationRepository extends JpaRepository<ChatConversation,Long>{List<ChatConversation> findByUserIdOrderByUpdatedAtDesc(Long userId); Optional<ChatConversation> findByIdAndUserId(Long id,Long userId);}
